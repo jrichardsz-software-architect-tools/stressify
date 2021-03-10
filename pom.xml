@@ -27,15 +27,17 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<!-- <version>2.4.1</version> -->
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
+					<finalName>${project.artifactId}</finalName>
+					<classifier>jar</classifier>
+					<appendAssemblyId>false</appendAssemblyId>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>edu.utec.tools.fiveminutestressor.main.EntrypointStressor</mainClass>
+							<mainClass>edu.utec.tools.stressify.main.EntrypointStressor</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
