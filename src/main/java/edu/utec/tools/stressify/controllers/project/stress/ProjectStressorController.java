@@ -120,14 +120,17 @@ public class ProjectStressorController implements ActionListener {
     TableModel model = this.jTableHeaders.getModel();
     HashMap<String, String> headers = new HashMap<String, String>();
     for (int row = 0; row < model.getRowCount(); row++) {
-      HashMap<String, String> header = new HashMap<>();
       String key = null;
+      String value = null;
       for (int col = 0; col < model.getColumnCount(); col++) {
         if (col == 0) {
           key = (String) model.getValueAt(row, col);
         } else if (col == 1) {
-          header.put(key, (String) model.getValueAt(row, col));
+          value = (String) model.getValueAt(row, col);
         }
+      }
+      if(key!=null && value!=null) {
+        headers.put(key, value);
       }
     }
 

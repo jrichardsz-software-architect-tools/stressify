@@ -44,12 +44,13 @@ public class ReportStep implements ExecutableStep {
     if (addMetadataToReport.booleanValue()) {
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
       String date = sdf.format(new Date());
-      String url = StringHelper.sanitizeUrlToFileLocation((String) parameters.get("url"));
+      String realEndpoint = StringHelper.getEndpoint((String) parameters.get("url"));
+      String endpoint = StringHelper.sanitizeEndpoint(realEndpoint);
       String method = (String) parameters.get("method");
       String mode = (String) parameters.get("mode");
       String threads = (String) parameters.get("threads");
       reportName = String.format("%s-%s-%s-%s-%s-date-%s.csv",
-          (String) parameters.get("reportName"), url, method, mode, threads, date);
+          (String) parameters.get("reportName"), endpoint, method, mode, threads, date);
     } else {
       reportName = (String) parameters.get("reportName") + ".csv";
     }

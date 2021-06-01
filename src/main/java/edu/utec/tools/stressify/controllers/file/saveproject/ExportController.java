@@ -130,7 +130,7 @@ public class ExportController {
           header.setDescription((String) model.getValueAt(row, col));
         }
       }
-      if (header.getKey() != null && header.getValue() != null && header.getDescription() != null) {
+      if (header.getKey() != null && header.getValue() != null) {
         headers.add(header);
       }
     }
