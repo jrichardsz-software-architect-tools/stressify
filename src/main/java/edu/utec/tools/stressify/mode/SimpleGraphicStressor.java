@@ -1,15 +1,19 @@
 package edu.utec.tools.stressify.mode;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import edu.utec.common.performance.MeasureUtil;
+import edu.utec.tools.stressify.common.FileHelper;
 import edu.utec.tools.stressify.common.ScriptImports;
+import edu.utec.tools.stressify.common.StressifyHelper;
 import edu.utec.tools.stressify.steps.CSVReaderStep;
 import edu.utec.tools.stressify.steps.ChartStep;
 import edu.utec.tools.stressify.steps.ReportStep;
@@ -40,12 +44,12 @@ public class SimpleGraphicStressor {
   public void perform(MainView mainView, String uuid, String csvDataPath, String reportFolderPath,
       String reportName, boolean addMetadataToReport, boolean generateImageCharts,
       String reportColumns, String mode, String threads, String url, String method, String body,
-      HashMap<String, String> headers, String assertScript) throws Exception {
+      HashMap<String, String> headers, String assertScript, String fileBaseName) throws Exception {
 
     clearLog();
     long before = new Date().getTime();
 
-    log("Stress starting...");
+    log("Stress starting with uuid:" + uuid);
     if (csvDataPath == null || csvDataPath.equals("")) {
       log("Data csv file is not configured. Stresss will not use variables."
           + " Go to data section and configure it if you want to use variables!");
@@ -112,7 +116,7 @@ public class SimpleGraphicStressor {
     reportStepParameters.put("dataStress", dataStress);
     reportStepParameters.put("reportColumnValues", reportColumnValues);
     reportStepParameters.put("reportFolderPath", reportFolderPath);
-    reportStepParameters.put("reportName", reportName + "-" + uuid);
+    reportStepParameters.put("fileBaseName", fileBaseName);
     reportStepParameters.put("addMetadataToReport", addMetadataToReport);
     reportStepParameters.put("method", method);
     reportStepParameters.put("url", url);
@@ -123,12 +127,22 @@ public class SimpleGraphicStressor {
     if (generateImageCharts) {
       ChartStep chartStep = new ChartStep();
       HashMap<String, Object> chartStepParameters = new HashMap<String, Object>();
+      chartStepParameters.put("fileBaseName", fileBaseName);
       chartStepParameters.put("dataStress", dataStress);
       chartStepParameters.put("reportFolderPath", reportFolderPath);
       chartStepParameters.put("mode", mode);
       chartStepParameters.put("threads", threads);
       chartStepParameters.put("uuid", uuid);
       chartStep.execute(chartStepParameters);
+    }
+
+    Map<String, Object> stats = StressifyHelper.getStats(dataStress);
+    String reportAbsoluthePath = reportFolderPath + File.separator + fileBaseName + "-stats.json";
+    try {
+      FileHelper.mapToJsonFile(stats, reportAbsoluthePath);
+      logger.info("Report was created: " + reportAbsoluthePath);
+    } catch (Exception e) {
+      throw new Exception("Failed to create stats json.", e);
     }
 
     long after = new Date().getTime();

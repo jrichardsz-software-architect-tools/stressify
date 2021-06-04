@@ -23,11 +23,12 @@ public class ChartStep implements ExecutableStep {
     String mode = (String) parameters.get("mode");
     String threads = (String) parameters.get("threads");
     String uuid = (String) parameters.get("uuid");
+    String fileBaseName = (String) parameters.get("fileBaseName");
     String reportFolderPath = (String) parameters.get("reportFolderPath");
     String chartTitle = String.format("%s %s users", threads, mode);
     JFreeChart chart = createChart(dataList, chartTitle);
 
-    String chartImageFileName = String.format("report-%s-chart.png", uuid);
+    String chartImageFileName = String.format("%s-chart-time.png", fileBaseName);
 
     ChartUtils.saveChartAsPNG(new File(reportFolderPath + File.separator + chartImageFileName),
         chart, 1000, 500);
@@ -46,14 +47,20 @@ public class ChartStep implements ExecutableStep {
       }
     }
 
-    XYSeries averageSerie = new XYSeries("Average");
-    int average = sum / realSerie.getItemCount();
-    for (int i = 0; i < dataList.size(); i++) {
-      HashMap<String, Object> row = dataList.get(i);
-      int y = getIntFromLong(row.get("totalExecutionMillisTime"));
-      if (y >= 0) {
-        averageSerie.add(i + 1, average);
+    XYSeries averageSerie = null;
+    // item count is zero on low http level errors in which there isn't response
+    if (realSerie.getItemCount() > 0) {
+      int average = sum / realSerie.getItemCount();
+      averageSerie = new XYSeries("Average: " + average + " millis");
+      for (int i = 0; i < dataList.size(); i++) {
+        HashMap<String, Object> row = dataList.get(i);
+        int y = getIntFromLong(row.get("totalExecutionMillisTime"));
+        if (y >= 0) {
+          averageSerie.add(i + 1, average);
+        }
       }
+    } else {
+      averageSerie = new XYSeries("Average");
     }
 
     XYSeriesCollection dataset = new XYSeriesCollection();

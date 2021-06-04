@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import org.apache.logging.log4j.LogManager;
 import edu.utec.tools.stressify.common.AssertsHelper;
+import edu.utec.tools.stressify.common.StressifyHelper;
 import edu.utec.tools.stressify.common.StressorConstants;
 import edu.utec.tools.stressify.controllers.project.settings.ProjectSettingsBasicActionsController;
 import edu.utec.tools.stressify.mode.SimpleGraphicStressor;
@@ -95,12 +96,7 @@ public class ProjectStressorController implements ActionListener {
   public void stress() throws Exception {
 
     String uuid = UUID.randomUUID().toString();
-    System.setProperty("logFilename", String.format("%s%sreport-%s.log",
-        jTextFieldReportFolderLocation.getText(), File.separator, uuid));
-    org.apache.logging.log4j.core.LoggerContext ctx =
-        (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
-    ctx.reconfigure();
-
+   
     if (graphicStressor == null) {
       graphicStressor = new SimpleGraphicStressor(jTextAreaStressLog);
     }
@@ -129,7 +125,7 @@ public class ProjectStressorController implements ActionListener {
           value = (String) model.getValueAt(row, col);
         }
       }
-      if(key!=null && value!=null) {
+      if((key!=null && !key.isEmpty()) && (value!=null && !value.isEmpty())) {
         headers.put(key, value);
       }
     }
@@ -140,9 +136,18 @@ public class ProjectStressorController implements ActionListener {
     boolean addMetadataToReport = jCheckBoxAddMetadataToReportName.isSelected();
     boolean generateImageCharts = jCheckBoxGenerateChartImages.isSelected();
 
+    String fileBaseName = StressifyHelper.createFileBaseName(uuid, addMetadataToReport, url, method,
+        mode, threads, reportName);
+   
+    System.setProperty("logFilename", String.format("%s%s%s-log.txt",
+        jTextFieldReportFolderLocation.getText(), File.separator,fileBaseName));
+    org.apache.logging.log4j.core.LoggerContext ctx =
+        (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+    ctx.reconfigure();    
+    
     graphicStressor.perform(mainView, uuid, csvDataPath, reportFolderPath, reportName,
         addMetadataToReport, generateImageCharts, reportColumns, mode, threads, url, method, body,
-        headers, assertScript);
+        headers, assertScript, fileBaseName);
   }
 
   public MainView getMainView() {

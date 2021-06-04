@@ -2,13 +2,9 @@ package edu.utec.tools.stressify.steps;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import edu.utec.common.csv.CSVUtil;
-import edu.utec.tools.stressify.common.StringHelper;
 import edu.utec.tools.stressify.core.ExecutableStep;
 
 public class ReportStep implements ExecutableStep {
@@ -20,8 +16,8 @@ public class ReportStep implements ExecutableStep {
         (List<HashMap<String, Object>>) parameters.get("dataStress");
     List<String> headers = (List<String>) parameters.get("reportColumnValues");
     String reportFolderPath = (String) parameters.get("reportFolderPath");
-    String reportName = createReportName(parameters);
-    String reportFilePath = reportFolderPath + File.separator + reportName;
+    String fileBaseName = (String)parameters.get("fileBaseName");
+    String reportFilePath = reportFolderPath + File.separator + fileBaseName+"-report.csv";
 
     FileWriter writer = new FileWriter(reportFilePath);
 
@@ -36,26 +32,6 @@ public class ReportStep implements ExecutableStep {
     writer.close();
 
     return "success";
-  }
-
-  private String createReportName(HashMap<String, Object> parameters) throws Exception {
-    Boolean addMetadataToReport = (Boolean) parameters.get("addMetadataToReport");
-    String reportName = null;
-    if (addMetadataToReport.booleanValue()) {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-      String date = sdf.format(new Date());
-      String realEndpoint = StringHelper.getEndpoint((String) parameters.get("url"));
-      String endpoint = StringHelper.sanitizeEndpoint(realEndpoint);
-      String method = (String) parameters.get("method");
-      String mode = (String) parameters.get("mode");
-      String threads = (String) parameters.get("threads");
-      reportName = String.format("%s-%s-%s-%s-%s-date-%s.csv",
-          (String) parameters.get("reportName"), endpoint, method, mode, threads, date);
-    } else {
-      reportName = (String) parameters.get("reportName") + ".csv";
-    }
-
-    return reportName;
   }
 
 }
