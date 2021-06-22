@@ -67,7 +67,7 @@ public class JDialogAbout extends javax.swing.JDialog {
 
         jTextField1.setEditable(false);
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("https://github.com/utec/stressify");
+        jTextField1.setText("https://github.com/software-architect-tools/stressify");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);

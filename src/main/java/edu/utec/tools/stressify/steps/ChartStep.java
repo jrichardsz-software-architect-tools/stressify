@@ -12,9 +12,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import edu.utec.tools.stressify.common.DataTypeHelper;
 import edu.utec.tools.stressify.core.ExecutableStep;
 
 public class ChartStep implements ExecutableStep {
+
+  private int average = 0;
 
   @Override
   public Object execute(HashMap<String, Object> parameters) throws Exception {
@@ -22,7 +25,6 @@ public class ChartStep implements ExecutableStep {
         (List<HashMap<String, Object>>) parameters.get("dataStress");
     String mode = (String) parameters.get("mode");
     String threads = (String) parameters.get("threads");
-    String uuid = (String) parameters.get("uuid");
     String fileBaseName = (String) parameters.get("fileBaseName");
     String reportFolderPath = (String) parameters.get("reportFolderPath");
     String chartTitle = String.format("%s %s users", threads, mode);
@@ -32,7 +34,10 @@ public class ChartStep implements ExecutableStep {
 
     ChartUtils.saveChartAsPNG(new File(reportFolderPath + File.separator + chartImageFileName),
         chart, 1000, 500);
-    return "success";
+
+    HashMap<String, Object> response = new HashMap<String, Object>();
+    response.put("average", average);
+    return response;
   }
 
   private JFreeChart createChart(List<HashMap<String, Object>> dataList, String chartTitle) {
@@ -40,7 +45,7 @@ public class ChartStep implements ExecutableStep {
     int sum = 0;
     for (int i = 0; i < dataList.size(); i++) {
       HashMap<String, Object> row = dataList.get(i);
-      int y = getIntFromLong(row.get("totalExecutionMillisTime"));
+      int y = DataTypeHelper.getIntFromLong(row.get("totalExecutionMillisTime"), -1);
       if (y >= 0) {
         realSerie.add(i + 1, y);
         sum += y;
@@ -50,11 +55,11 @@ public class ChartStep implements ExecutableStep {
     XYSeries averageSerie = null;
     // item count is zero on low http level errors in which there isn't response
     if (realSerie.getItemCount() > 0) {
-      int average = sum / realSerie.getItemCount();
+      average = sum / realSerie.getItemCount();
       averageSerie = new XYSeries("Average: " + average + " millis");
       for (int i = 0; i < dataList.size(); i++) {
         HashMap<String, Object> row = dataList.get(i);
-        int y = getIntFromLong(row.get("totalExecutionMillisTime"));
+        int y = DataTypeHelper.getIntFromLong(row.get("totalExecutionMillisTime"), -1);
         if (y >= 0) {
           averageSerie.add(i + 1, average);
         }
@@ -79,14 +84,4 @@ public class ChartStep implements ExecutableStep {
 
     return chart;
   }
-
-  private int getIntFromLong(Object longg) {
-    if (longg == null || !(longg instanceof Long)) {
-      return -1;
-    } else {
-      Long temp = (Long) longg;
-      return temp.intValue();
-    }
-  }
-
 }

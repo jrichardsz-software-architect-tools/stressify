@@ -1,12 +1,17 @@
 package edu.utec.common.variable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VariableUtil {
+
+  private static String[] specialWilcards =
+      new String[] {"random.p.int", "random.p.double", "uuid"};
 
   public static String replaceVariablesInString(String rawString,
       HashMap<String, String> variables) {
@@ -34,15 +39,17 @@ public class VariableUtil {
   }
 
   public static boolean containsJockers(String key) {
-    return key.contentEquals("randomPositiveInteger") || key.contentEquals("randomPositiveDouble");
+    return Arrays.stream(specialWilcards).anyMatch(key::equals);
   }
 
   public static String parseJocker(String key) {
     try {
-      if (key.contentEquals("randomPositiveInteger")) {
+      if (key.contentEquals("random.p.int")) {
         return "" + Math.abs(getRandomIntegerInRange(1000, 10000));
-      } else if (key.contentEquals("randomPositiveDouble")) {
+      } else if (key.contentEquals("random.p.double")) {
         return "" + Math.abs(getRandomDoubleInRange(1000, 10000));
+      } else if (key.contentEquals("uuid")) {
+        return UUID.randomUUID().toString();
       } else {
         return key;
       }

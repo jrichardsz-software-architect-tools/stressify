@@ -78,6 +78,15 @@ Every time you press the **Start Stress** button, you will have these files:
 
 ![https://i.ibb.co/f2XH6Wq/stressify-chart.png](https://i.ibb.co/f2XH6Wq/stressify-chart.png)
 
+# Variables
+
+| name | description |
+|-------|-------------|
+| random.p.int    | positive random integer |
+| random.p.double    | positive random double |
+| uuid    | random string |
+
+
 # Advanced usage
 
 More complex settings and asserts are in the [wiki](https://github.com/utec/stressify/wiki)

@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import edu.utec.common.performance.MeasureUtil;
 import edu.utec.tools.stressify.common.FileHelper;
+import edu.utec.tools.stressify.common.MathHelper;
 import edu.utec.tools.stressify.common.ScriptImports;
 import edu.utec.tools.stressify.common.StressifyHelper;
 import edu.utec.tools.stressify.steps.CSVReaderStep;
@@ -124,6 +125,7 @@ public class SimpleGraphicStressor {
     reportStepParameters.put("threads", threads);
     Object result = reportStep.execute(reportStepParameters);
 
+    HashMap<String, Object> chartStepResponse = null;
     if (generateImageCharts) {
       ChartStep chartStep = new ChartStep();
       HashMap<String, Object> chartStepParameters = new HashMap<String, Object>();
@@ -133,10 +135,19 @@ public class SimpleGraphicStressor {
       chartStepParameters.put("mode", mode);
       chartStepParameters.put("threads", threads);
       chartStepParameters.put("uuid", uuid);
-      chartStep.execute(chartStepParameters);
+      chartStepResponse = (HashMap<String, Object>) chartStep.execute(chartStepParameters);
     }
 
-    Map<String, Object> stats = StressifyHelper.getStats(dataStress);
+    int average = 0;
+    if (chartStepResponse == null) {
+      // compute average
+      average = MathHelper.getAverage(dataStress, "totalExecutionMillisTime");
+    } else {
+      Integer averageInteger = (Integer) chartStepResponse.get("average");
+      average = averageInteger.intValue();
+    }
+
+    Map<String, Object> stats = StressifyHelper.getStats(dataStress, average);
     String reportAbsoluthePath = reportFolderPath + File.separator + fileBaseName + "-stats.json";
     try {
       FileHelper.mapToJsonFile(stats, reportAbsoluthePath);
