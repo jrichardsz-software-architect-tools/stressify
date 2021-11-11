@@ -6,6 +6,10 @@ You just need 5 minutes to get valuable information related to your APIs timing.
 
 ![logo](./src/main/resources/edu/utec/tools/stressify/ui/icon.png)
 
+## Version
+
+1.0.3
+
 # Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -20,7 +24,7 @@ java 1.7 or later
 
 # Install
 
-- Download **stressify.jar** from [here](https://github.com/utec/stressify/releases)
+- Download latest **stressify.jar** from [here](https://github.com/jrichardsz-software-architect-tools/stressify/releases)
 
 
 # Start
@@ -61,7 +65,7 @@ Every time you press the **Start Stress** button, you will have these files:
 
 ![https://i.ibb.co/Wn5Wp4k/stressify-csv-report.png](https://i.ibb.co/Wn5Wp4k/stressify-csv-report.png)
 
-						
+
 
 | field | description |
 |-------|-------------|
@@ -72,30 +76,44 @@ Every time you press the **Start Stress** button, you will have these files:
 | totalExecutionMillisTime  | how long did the http invocation take   |
 | log      | message when an error is detected on each http invocation |
 
-**log** file will contain the log of each request and or the errors. You can search here the id of some execution in the csv file
 
+**log** file will contain the log of each request and or the errors. You can search here the id of some execution in the csv file
 **png** file will contain a basic average chart (users vs response time). Red line is the real data and blue the average:
 
 ![https://i.ibb.co/f2XH6Wq/stressify-chart.png](https://i.ibb.co/f2XH6Wq/stressify-chart.png)
 
+# Variables
+
+| name | description |
+|-------|-------------|
+| randPosInt    | positive random integer |
+| randPosDoub    | positive random double |
+| uuid    | random string |
+
+
 # Advanced usage
 
-More complex settings and asserts are in the [wiki](https://github.com/utec/stressify/wiki)
+More complex settings and asserts are in the [wiki](https://github.com/jrichardsz-software-architect-tools/stressify/wiki)
 
-## Versioning
+# Roadmap
 
-1.0.0
+- coverage more than 95%
+- more variables
+- tutorials
+- wiki
 
-## Contribute
+# Contributors
 
-More and more test and refactor code.
-
-1.0.0
-
-## Authors
-
-* **Richard Leon Ingaruca** - *Initial work* - [JRichardsz](https://github.com/jrichardsz)
-
+<table>
+  <tbody>
+    <td>
+      <img src="https://avatars0.githubusercontent.com/u/3322836?s=460&v=4" width="100px;"/>
+      <br />
+      <label><a href="http://jrichardsz.github.io/">JRichardsz</a></label>
+      <br />
+    </td>    
+  </tbody>
+</table>
 
 ## License
 

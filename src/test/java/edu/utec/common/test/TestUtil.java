@@ -1,8 +1,7 @@
 package edu.utec.common.test;
 
 import java.io.File;
-
-import edu.utec.common.file.FileUtil;
+import org.jrichardsz.common.file.FileUtil;
 
 public class TestUtil {
   public static File lookupFileForTesting(String fileName) throws Exception {

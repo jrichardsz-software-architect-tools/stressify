@@ -5,13 +5,11 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import org.jrichardsz.common.csv.CSVUtil;
+import org.jrichardsz.tools.stressify.steps.CSVReaderStep;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import edu.utec.common.csv.CSVUtil;
-import edu.utec.tools.stressify.steps.CSVReaderStep;
 import junit.framework.TestCase;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
