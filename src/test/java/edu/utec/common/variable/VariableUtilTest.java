@@ -3,7 +3,7 @@ package edu.utec.common.variable;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.jrichardsz.common.variable.VariableUtil;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -84,7 +84,7 @@ public class VariableUtilTest extends TestCase {
 
   @Test
   public void test_07_randomPositiveInteger() throws Exception {
-    String rawString = "https://bitbucket.org/utecsup/${randomPositiveInteger}/ceditec-web/pull-requests";
+    String rawString = "https://bitbucket.org/utecsup/${randPosInt}/ceditec-web/pull-requests";
 
     HashMap<String, String> variables = new HashMap<String, String>();
     variables.put("a", "b");
@@ -98,7 +98,7 @@ public class VariableUtilTest extends TestCase {
   
   @Test
   public void test_08_randomPositiveDouble() throws Exception {
-    String rawString = "https://bitbucket.org/utecsup/${randomPositiveDouble}/ceditec-web/pull-requests";
+    String rawString = "https://bitbucket.org/utecsup/${randPosDoub}/ceditec-web/pull-requests";
     
     HashMap<String, String> variables = new HashMap<String, String>();
     variables.put("a", "b");
