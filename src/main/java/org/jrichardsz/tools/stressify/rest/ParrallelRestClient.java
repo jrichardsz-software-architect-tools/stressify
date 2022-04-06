@@ -35,7 +35,7 @@ public class ParrallelRestClient extends Thread implements BaseScriptExecutor {
   public void performRequest() {
 
     String id = UUID.randomUUID().toString();
-    Date dateOnError = new Date();
+    Date dateOnError;
     try {
       response = smartHttpClient.performRequest(method, url, body, headers);
       logger.info("http invocation was completed. Id: " + id);
@@ -43,10 +43,19 @@ public class ParrallelRestClient extends Thread implements BaseScriptExecutor {
           + String.format("Url:%s Headers:%s Method:%s Body:%s", url, headers, method, body));
       logger.info(id + " Response values : " + response);      
     } catch (Exception e) {
+      dateOnError = new Date();
       logger.error("Failed to execute http invocation with id: " + id, e);
       response = new HashMap<String, Object>();
       response.put("startDate", dateFormat.format(TimeHelper.millisToDate(dateOnError.getTime())));
       response.put("log", "Connection error:" + e.getMessage());
+      return;
+    }
+    
+    if(response.get("hasError")!=null){
+      dateOnError = new Date(); 
+      logger.error("Failed to execute http invocation with id: " + id);
+      response.put("startDate", dateFormat.format(TimeHelper.millisToDate(dateOnError.getTime())));
+      response.put("log", "Connection error:"+response.get("exception"));
       return;
     }
 

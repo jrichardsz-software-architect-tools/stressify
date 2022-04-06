@@ -45,7 +45,8 @@ public class SmartHttpClient {
     long endingMillisDate = 0l;
     Date startDate = null;
     Date endDate = null;
-
+    HashMap<String, Object> smartHttpClientResponse = new HashMap<String, Object>();
+    
     try {
 
       URL obj = new URL(url);
@@ -96,8 +97,7 @@ public class SmartHttpClient {
       br.close();
 
       logger.debug("Response body : " + response.toString());
-
-      HashMap<String, Object> smartHttpClientResponse = new HashMap<String, Object>();
+      
       smartHttpClientResponse.put("startMillisDate", startMillisDate);
       smartHttpClientResponse.put("endMillisDate", endingMillisDate);
       smartHttpClientResponse.put("totalExecutionMillisTime", endingMillisDate - startMillisDate);
@@ -118,11 +118,31 @@ public class SmartHttpClient {
       return smartHttpClientResponse;
 
     } catch (Exception ex) {
-      logger.debug("Response error : " + ex.getMessage());
-      throw new Exception(String.format(
+      smartHttpClientResponse.put("hasError", true);
+      //TODO: exception to string
+      smartHttpClientResponse.put("exception", ex.toString());
+      logger.debug(String.format(
           "Low level error was detected when an http invocation was being executed. Url:%s Headers:%s Method:%s Body:%s",
           url, headers, method, body), ex);
+      
+      if(endDate==null){
+        endDate = new Date();
+        endingMillisDate = TimeHelper.getDateAsLong(endDate);
+      }
+      
+      smartHttpClientResponse.put("startMillisDate", startMillisDate);
+      smartHttpClientResponse.put("endMillisDate", endingMillisDate);
+      smartHttpClientResponse.put("totalExecutionMillisTime", endingMillisDate - startMillisDate);
+      
+      smartHttpClientResponse.put("responseStatus", smartHttpClientResponse.get("responseStatus")==null ? -1 : smartHttpClientResponse.get("responseStatus"));
+      smartHttpClientResponse.put("responseBody", smartHttpClientResponse.get("responseBody")==null ? "{low-level-error}" : smartHttpClientResponse.get("responseBody"));
+      
+      /*throw new Exception(String.format(
+          "Low level error was detected when an http invocation was being executed. Url:%s Headers:%s Method:%s Body:%s",
+          url, headers, method, body), ex);*/
     }
+    
+    return smartHttpClientResponse;
   }
 
   private String mergeHeadersWithSameKey(List<String> values) {
