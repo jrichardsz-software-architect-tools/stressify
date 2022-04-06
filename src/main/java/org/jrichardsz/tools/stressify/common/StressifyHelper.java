@@ -15,7 +15,7 @@ public class StressifyHelper {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
     String date = sdf.format(new Date());
     if (addMetadataToReport) {
-      String realEndpoint = StringHelper.getEndpoint(url);
+      String realEndpoint = StringHelper.getEndpoint(url).split("\\?")[0];
       String endpoint = StringHelper.sanitizeEndpoint(realEndpoint);
       fileBaseName = String.format("%s-%s-%s-%s-%s-date-%s-uuid-%s", reportName, endpoint, method,
           mode, threads, date, uuid);
