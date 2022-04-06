@@ -67,7 +67,7 @@ public class JDialogAbout extends javax.swing.JDialog {
 
         jTextField1.setEditable(false);
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("https://github.com/software-architect-tools/stressify");
+        jTextField1.setText("https://github.com/jrichardsz-software-architect-tools/stressify");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -126,7 +126,7 @@ public class JDialogAbout extends javax.swing.JDialog {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -160,18 +160,18 @@ public class JDialogAbout extends javax.swing.JDialog {
             }
         });
     }
-    
+
     public void configureIcon(){
         int widthAboutAppIcon = 256;
         int heightAboutAppIcon = 256;
-        
+
         ImageIcon imageIcon = new ImageIcon(new ImageIcon(getClass().getResource("/edu/utec/tools/stressify/ui/icon.png")).
                 getImage().getScaledInstance(widthAboutAppIcon, heightAboutAppIcon, Image.SCALE_DEFAULT));
-        jLabelAboutAppIcon.setIcon(imageIcon);  
-        
+        jLabelAboutAppIcon.setIcon(imageIcon);
+
         int widthAboutDeveloperIcon = jLabelAboutDeveloperIcon.getSize().width;
         int heightAboutDeveloperIcon = jLabelAboutDeveloperIcon.getSize().height;
-        
+
         ImageIcon imageIcon2 = new ImageIcon(new ImageIcon(getClass().getResource("/edu/utec/tools/stressify/ui/me.png")).
                 getImage().getScaledInstance(widthAboutDeveloperIcon, heightAboutDeveloperIcon, Image.SCALE_DEFAULT));
         jLabelAboutDeveloperIcon.setIcon(imageIcon2);

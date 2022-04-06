@@ -8,7 +8,7 @@ You just need 5 minutes to get valuable information related to your APIs timing.
 
 ## Version
 
-1.0.3
+1.0.4
 
 # Getting Started
 
@@ -19,8 +19,10 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 ```
-java 1.7 or later
+java 1.8 or later
 ```
+
+You can find more detailed instructions on wiki
 
 # Install
 
@@ -59,13 +61,13 @@ assertThat(status).isEqualTo('Duke')
 
 Every time you press the **Start Stress** button, you will have these files:
 
-![https://i.ibb.co/1b2Ccvb/stressify-results.png](https://i.ibb.co/1b2Ccvb/stressify-results.png)
+![https://i.ibb.co/NnqSKYY/stressify-report-files.png](https://i.ibb.co/NnqSKYY/stressify-report-files.png)
 
-**csv** file will contain valuable data of the stress execution:
+**csv and xlsx** files will contain valuable data of the stress execution:
 
 ![https://i.ibb.co/Wn5Wp4k/stressify-csv-report.png](https://i.ibb.co/Wn5Wp4k/stressify-csv-report.png)
 
-
+**Columns description**
 
 | field | description |
 |-------|-------------|
@@ -77,18 +79,33 @@ Every time you press the **Start Stress** button, you will have these files:
 | log      | message when an error is detected on each http invocation |
 
 
-**log** file will contain the log of each request and or the errors. You can search here the id of some execution in the csv file
+**log** file will contain the log of each request and or the errors. You can search here using the id of the csv file
+
+
 **png** file will contain a basic average chart (users vs response time). Red line is the real data and blue the average:
 
 ![https://i.ibb.co/f2XH6Wq/stressify-chart.png](https://i.ibb.co/f2XH6Wq/stressify-chart.png)
 
 # Variables
 
+
+You can use the following jockers on any part of the request (url, header, body) to inject dynamic values instead the same value for all request
+
 | name | description |
 |-------|-------------|
 | randPosInt    | positive random integer |
 | randPosDoub    | positive random double |
 | uuid    | random string |
+
+Body Example:
+
+```
+{
+  "id" : "${uuid}",
+  "age" : "${randPosInt}",
+  "money" : "${randPosDoub}"
+}
+```
 
 
 # Advanced usage
@@ -97,6 +114,7 @@ More complex settings and asserts are in the [wiki](https://github.com/jrichards
 
 # Roadmap
 
+- word and pdf reports
 - coverage more than 95%
 - more variables
 - tutorials
