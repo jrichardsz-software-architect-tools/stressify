@@ -30,7 +30,7 @@ public class ReportStep implements ExecutableStep {
   public void createExcel(String reportFolderPath, String fileBaseName, List<String> headers, List<HashMap<String, Object>> dataStress)
   throws Exception
   {
-    String filename = reportFolderPath + File.separator + fileBaseName+"-report.xlsx";
+    String filename = reportFolderPath + File.separator + fileBaseName+"-report.xls";
 
     FileOutputStream fileOut = null;
     HSSFWorkbook workbook = null;
