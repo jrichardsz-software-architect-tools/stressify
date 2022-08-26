@@ -8,7 +8,7 @@ You just need 5 minutes to get valuable information related to your APIs timing.
 
 ## Version
 
-1.0.4
+1.0.5
 
 # Getting Started
 
@@ -63,7 +63,7 @@ Every time you press the **Start Stress** button, you will have these files:
 
 ![https://i.ibb.co/NnqSKYY/stressify-report-files.png](https://i.ibb.co/NnqSKYY/stressify-report-files.png)
 
-**csv and xlsx** files will contain valuable data of the stress execution:
+**csv and xlsx** files which contain valuable data of the stress execution:
 
 ![https://i.ibb.co/Wn5Wp4k/stressify-csv-report.png](https://i.ibb.co/Wn5Wp4k/stressify-csv-report.png)
 
@@ -79,8 +79,20 @@ Every time you press the **Start Stress** button, you will have these files:
 | log      | message when an error is detected on each http invocation |
 
 
-**log** file will contain the log of each request and or the errors. You can search here using the id of the csv file
+**log** file which contain the log of each request and or the errors. You can search here using the id of the csv file
 
+**stats.json** file which contain a summary of the stress. Useful for the future html reports:
+
+```
+{
+  "totalInvocations" : 10,
+  "response200Count" : 10,
+  "responseNon200Count" : 0,
+  "assertsTrueCount" : 10,
+  "assertsFalseCount" : 0,
+  "averageResponseTimeMillis" : 851
+}
+```
 
 **png** file will contain a basic average chart (users vs response time). Red line is the real data and blue the average:
 

@@ -1,11 +1,20 @@
 package org.jrichardsz.tools.stressify.main;
 
+import java.io.File;
+import java.util.UUID;
 import javax.swing.JFrame;
 import org.jrichardsz.common.http.DisableCertificateValidation;
 import org.jrichardsz.tools.stressify.ui.MainView;
 
 public class EntrypointStressor {
   public static void main(String[] args) throws Exception {
+    
+    //https://github.com/jrichardsz-software-architect-tools/stressify/issues/18
+    //fix: set a temp value to avoid issue
+    //when stress starts, a new value is generated and log is realoaded
+    String uuid = UUID.randomUUID().toString();
+    System.setProperty("logFilename", System.getProperty("java.io.tmpdir")+File.separator+uuid+".log");
+    
     try {
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
           .getInstalledLookAndFeels()) {
